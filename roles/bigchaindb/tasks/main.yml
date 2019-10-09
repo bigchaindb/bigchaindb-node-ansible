@@ -1,0 +1,34 @@
+---
+- name: Install Bigchaindb
+  shell: |
+    sudo -i -u {{ bigchaindb_user }} bash <<EOF
+
+    # create a virtualenv
+    python -m venv --clear ~/env/bigchaindb
+    source ~/env/bigchaindb/bin/activate
+
+    # install
+    pip install -U bigchaindb=={{ bigchaindb_version }}
+    rm -f ~/.bigchaindb
+    bigchaindb -y configure
+
+    # expose to the internet
+    sed -i 's/"bind": "localhost:9984"/"bind": "0.0.0.0:9984"/' ~/.bigchaindb
+
+    # logging config
+    sed -i 's@"file": "/home/{{ bigchaindb_user }}/bigchaindb\.log"\
+    @"file": "/var/log/bigchaindb/bigchaindb.log"@' ~/.bigchaindb
+
+    sed -i 's@"error_file": "/home/{{ bigchaindb_user }}/bigchaindb-errors.log"\
+    @"error_file": "/var/log/bigchaindb/bigchaindb-errors.log"@' ~/.bigchaindb
+
+    deactivate
+    EOF
+
+- name: Place systemd unit file
+  template:
+    src: service.j2
+    dest: /lib/systemd/system/bigchaindb.service
+    owner: root
+    group: root
+  become: yes

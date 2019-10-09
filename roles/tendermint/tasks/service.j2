@@ -1,0 +1,12 @@
+[Unit]
+Description=Tendermint. Byzantine-fault tolerant state machine replication.
+Documentation=https://tendermint.readthedocs.io/en/master/
+
+[Service]
+ExecStart=/home/{{ tendermint_user }}/go/bin/tendermint node
+WorkingDirectory=/home/{{ tendermint_user }}
+User={{ tendermint_user }}
+Group={{ bigchaindb_group }}
+
+[Install]
+WantedBy=multi-user.target

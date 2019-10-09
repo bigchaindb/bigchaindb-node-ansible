@@ -1,0 +1,27 @@
+---
+# Python variables
+python_version_suffix: "3.6"
+python_deb_package_name: "python{{ python_version_suffix }}"
+python_venv_deb_package_name: "python{{ python_version_suffix }}-venv"
+# Users
+bigchaindb_group: "bigchaindb"
+bigchaindb_user: "bigchaindb"
+tendermint_user: "tendermint"
+
+# Mongdb
+mongodb_deb_package_name: "mongodb-org"
+mongodb_version: "3.6"
+
+# Golang
+go_deb_package_name: "golang"
+
+# Tendermint
+tendermint_repo: "github.com/tendermint/tendermint"
+tendermint_branch: "v0.31.5"
+
+# Bigchaindb
+bigchaindb_version: "v2.0.0"
+
+# etc
+use_trusted_ntp: true
+nologin_binary: "/usr/sbin/nologin"

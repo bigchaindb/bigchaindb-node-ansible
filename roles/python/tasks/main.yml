@@ -1,0 +1,24 @@
+---
+
+- name: Install python
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - "{{ python_deb_package_name }}"
+      - "{{ python_venv_deb_package_name }}"
+  register: install_python_res
+  become: yes
+
+- name: Configure python for bigchaindb user
+  shell: |
+    sudo -i -u $BIGCHAINDB_USER bash << EOF
+    PYTHON_BIN=\$(which python\$BIGCHAINDB_PY_VSFX)
+    PYTHON_BIN_DIR=\$(dirname \$PYTHON_BIN)
+    mkdir -p ~/bin
+    ln -sfn \$PYTHON_BIN ~/bin/python3
+    ln -sfn \$PYTHON_BIN ~/bin/python
+    if [[ \$PATH != \$HOME/bin* ]]; then
+        echo 'export PATH="\$HOME/bin:\$PATH"' >> ~/.profile;
+    fi
+    EOF

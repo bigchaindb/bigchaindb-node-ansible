@@ -1,0 +1,13 @@
+[Unit]
+Description=BigchainDB. The blockchain database.
+Documentation=https://docs.bigchaindb.com/en/latest/
+After=tendermint.service
+
+[Service]
+ExecStart=/home/{{ bigchaindb_user }}/env/bigchaindb/bin/bigchaindb start
+WorkingDirectory=/home/{{ bigchaindb_user }}
+User={{ bigchaindb_user }}
+Group={{ bigchaindb_group }}
+
+[Install]
+WantedBy=multi-user.target

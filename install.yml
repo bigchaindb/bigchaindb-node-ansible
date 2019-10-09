@@ -1,0 +1,14 @@
+---
+- hosts: all
+  gather_facts: no
+  vars_files:
+    - vars/install-config.yml
+  vars:
+    scripts: "{{ top_dir }}/scripts"
+  roles:
+    - preconfig
+    - mongodb
+    - python
+    - tendermint
+    - bigchaindb
+    - postconfig

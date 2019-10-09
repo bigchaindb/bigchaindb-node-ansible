@@ -1,0 +1,15 @@
+---
+- name: Enable services
+  shell: |
+    systemctl daemon-reload
+    systemctl enable tendermint
+    systemctl enable bigchaindb
+    systemctl enable mongod
+  become: yes
+
+- name: Restart services
+  shell: |
+    systemctl restart tendermint
+    systemctl restart bigchaindb
+    systemctl restart mongod
+  become: yes

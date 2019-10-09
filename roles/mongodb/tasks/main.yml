@@ -1,0 +1,25 @@
+---
+- name: Add Mongo key
+  shell: |
+    wget -qO- https://www.mongodb.org/static/pgp/server-{{ mongodb_version }}.asc \
+    | apt-key add
+  become: yes
+
+- name: Add ppa
+  shell: |
+    PACK={{ mongodb_deb_package_name }}
+    VER={{ mongodb_version }}
+    echo deb http://repo.mongodb.org/apt/ubuntu xenial/$PACK/$VER multiverse \
+    > /etc/apt/sources.list.d/mongodb-org.list
+  become: yes
+
+- name: Update apt
+  apt:
+    upgrade: yes
+    update_cache: yes
+  become: yes
+
+- name: Install mongodb
+  apt:
+    name: "{{ mongodb_deb_package_name }}"
+  become: yes

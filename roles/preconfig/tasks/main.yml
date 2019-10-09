@@ -1,0 +1,34 @@
+---
+- name: Users setup
+  shell: |
+    addgroup {{ bigchaindb_group }} \
+        || echo {{ bigchaindb_group }} already exists
+    adduser {{ bigchaindb_user }} \
+        --ingroup {{ bigchaindb_group }} \
+        --gecos '' \
+        --disabled-password \
+        || echo {{ bigchaindb_user }} already exists
+    adduser {{ tendermint_user }} \
+        --ingroup {{ bigchaindb_group }} \
+        --gecos '' \
+        --disabled-password \
+        || echo {{ bigchaindb_user }} already exists
+  become: yes
+# TODO disable login
+
+- name: Use the trusted NTP
+  when: use_trusted_ntp
+  script: "{{ scripts }}/ntpset"
+  become: yes
+  # TODO check result
+
+- name: Install build requirements
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - make
+      - build-essential
+      - libssl-dev
+      - libffi-dev
+  sudo: yes

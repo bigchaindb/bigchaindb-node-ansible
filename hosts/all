@@ -1,0 +1,8 @@
+# Place holder file for users, running Ansible playbooks manually. Otherwise Vagrant
+# populates this dynamically.
+
+# For local host
+#<HOSTNAME> ansible_connection=local
+
+# for remote host(s)
+#<HOSTNAME>  ansible_ssh_user=<USER> ansible_sudo_pass=<PASS>
