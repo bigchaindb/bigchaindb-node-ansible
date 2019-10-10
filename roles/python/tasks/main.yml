@@ -12,8 +12,8 @@
 
 - name: Configure python for bigchaindb user
   shell: |
-    sudo -i -u $BIGCHAINDB_USER bash << EOF
-    PYTHON_BIN=\$(which python\$BIGCHAINDB_PY_VSFX)
+    sudo -i -u {{ bigchaindb_user }} bash << EOF
+    PYTHON_BIN=\$(which python{{ python_version_suffix }})
     PYTHON_BIN_DIR=\$(dirname \$PYTHON_BIN)
     mkdir -p ~/bin
     ln -sfn \$PYTHON_BIN ~/bin/python3
