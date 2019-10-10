@@ -21,6 +21,7 @@ tendermint_branch: "v0.31.5"
 
 # Bigchaindb
 bigchaindb_version: "v2.0.0"
+bigchaindb_log_folder: "/var/log"
 
 # etc
 use_trusted_ntp: true

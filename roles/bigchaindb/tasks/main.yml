@@ -17,13 +17,19 @@
 
     # logging config
     sed -i 's@"file": "/home/{{ bigchaindb_user }}/bigchaindb\.log"\
-    @"file": "/var/log/bigchaindb/bigchaindb.log"@' ~/.bigchaindb
+    @"file": "{{ bigchaindb_log_folder }}/bigchaindb/bigchaindb.log"@' ~/.bigchaindb
 
     sed -i 's@"error_file": "/home/{{ bigchaindb_user }}/bigchaindb-errors.log"\
-    @"error_file": "/var/log/bigchaindb/bigchaindb-errors.log"@' ~/.bigchaindb
+    @"error_file": "{{ bigchaindb_log_folder }}/bigchaindb/bigchaindb-errors.log"@' ~/.bigchaindb
 
     deactivate
     EOF
+
+- name: Configure log folder
+  shell: |
+    mkdir {{ bigchaindb_log_folder }}/bigchaindb
+    chown {{ bigchaindb_user }}:{{ bigchaindb_group }} {{ bigchaindb_log_folder }}/bigchaindb
+  become: yes
 
 - name: Place systemd unit file
   template:
