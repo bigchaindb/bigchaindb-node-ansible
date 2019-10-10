@@ -2,6 +2,7 @@
 # Python variables
 python_version_suffix: "3.6"
 python_deb_package_name: "python{{ python_version_suffix }}"
+python_pip_deb_package_name: "python3-pip"
 python_venv_deb_package_name: "python{{ python_version_suffix }}-venv"
 # Users
 bigchaindb_group: "bigchaindb"

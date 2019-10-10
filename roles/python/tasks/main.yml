@@ -6,6 +6,7 @@
   vars:
     packages:
       - "{{ python_deb_package_name }}"
+      - "{{ python_pip_deb_package_name }}"
       - "{{ python_venv_deb_package_name }}"
   register: install_python_res
   become: yes
