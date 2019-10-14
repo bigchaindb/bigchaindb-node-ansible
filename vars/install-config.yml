@@ -18,7 +18,7 @@ go_deb_package_name: "golang"
 
 # Tendermint
 tendermint_repo: "github.com/tendermint/tendermint"
-tendermint_branch: "v0.31.5"
+tendermint_branch: "v0.31.5" # NOTE: use "v0.22.8" for bigchaindb v2.0.0b9
 
 # Bigchaindb
 bigchaindb_version: "v2.0.0"

@@ -1,15 +1,51 @@
 ---
+- name: Create BigchainDB environment
+  shell: |
+    sudo -i -u {{ bigchaindb_user }} bash <<EOF
+    # create a virtualenv
+    python -m venv --clear ~/env/bigchaindb
+    EOF
+  become: yes
+
+- name: Apply v2.0.0b9 fixes
+  # Explicitly install wheel (v2.0.0b9 install fix).
+  shell: |
+    sudo -i -u {{ bigchaindb_user }} bash <<EOF
+    source ~/env/bigchaindb/bin/activate
+    pip install wheel
+    deactivate
+    EOF
+  become: yes
+  when: bigchaindb_version == "v2.0.0b9"
+
 - name: Install Bigchaindb
   shell: |
     sudo -i -u {{ bigchaindb_user }} bash <<EOF
-
-    # create a virtualenv
-    python -m venv --clear ~/env/bigchaindb
     source ~/env/bigchaindb/bin/activate
-
     # install
     pip install -U bigchaindb=={{ bigchaindb_version }}
-    rm -f ~/.bigchaindb
+    deactivate
+    EOF
+  become: yes
+
+- name: Apply v2.0.0b9 fixes step 2.
+  # Install tendermint abci
+  # NOTE: I don't know why but it works when bigchaindb is already installed.
+  # It probably has something to do with protobufs.
+  shell: |
+    sudo -i -u {{ bigchaindb_user }} bash <<EOF
+    source ~/env/bigchaindb/bin/activate
+    pip install tm-abci
+    deactivate
+    EOF
+  become: yes
+  when: bigchaindb_version == "v2.0.0b9"
+
+- name: Bigchaindb configuration
+  shell: |
+    sudo -i -u {{ bigchaindb_user }} bash <<EOF
+    source ~/env/bigchaindb/bin/activate
+
     bigchaindb -y configure
 
     # expose to the internet
@@ -24,6 +60,7 @@
 
     deactivate
     EOF
+  become: yes
 
 - name: Configure log folder
   shell: |
