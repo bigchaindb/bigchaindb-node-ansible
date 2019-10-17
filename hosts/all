@@ -1,8 +1,8 @@
-# Place holder file for users, running Ansible playbooks manually. Otherwise Vagrant
-# populates this dynamically.
-
-# For local host
-#<HOSTNAME> ansible_connection=local
-
-# for remote host(s)
+# Basic configuration
 #<HOSTNAME>  ansible_ssh_user=<USER> ansible_sudo_pass=<PASS>
+
+# Configuration with nginx and selfsigned ssl serts
+#<HOSTNAME>  ansible_ssh_user=<USER> ansible_sudo_pass=<PASS> country_name=DE organization_name=BigchainDB mail_address=contact@bigchaindb.com
+
+# Configuration with nginx and selfsigned ssl serts
+#<HOSTNAME>  ansible_ssh_user=<USER> ansible_sudo_pass=<PASS> ssl_pem=/path/to/cert.pem ssl_key=/path/to/ssl/key ssl_csr=/path/to/ssl_csr

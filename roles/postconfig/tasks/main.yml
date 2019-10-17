@@ -13,3 +13,10 @@
     systemctl restart bigchaindb
     systemctl restart mongod
   become: yes
+
+- name: Enable nginx
+  shell: |
+    systemctl enable nginx
+    systemctl restart nginx
+  become: yes
+  when: nginx_enable

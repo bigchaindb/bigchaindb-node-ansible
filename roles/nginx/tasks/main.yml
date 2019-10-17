@@ -1,0 +1,49 @@
+- name: Update apt
+  apt:
+    upgrade: true
+    update_cache: true
+  become: true
+
+- name: Install nginx
+  apt:
+    name: "{{ nginx_deb_package_name }}"
+  become: true
+
+- name: Download bigchaindb nginx config.
+  get_url:
+    url: "{{ nginx_conf_net_loc }}"
+    dest: "{{ nginx_conf_loc }}"
+    mode: '0644'
+    force: true
+  become : true
+
+- name:  Install ssl requirements
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+       - python-cryptography
+  become: true
+
+- name: Create cert directory
+  file:
+    path: /etc/nginx/ssl
+    state: directory
+  become: true
+
+
+# NOTE `Populate ssl directory` and `Generate certificate` are mutually exclusive!
+- name: Generate certificate
+  include_tasks: generate-cert.yml
+  when: nginx_selfsigned
+
+- name: Populate ssl directory
+  include_tasks: copy-cert.yml
+  when: nginx_copy_existing_certs
+
+
+- name: Edit nginx.conf
+  shell: |
+    # TODO replace with regex
+    sed -i 's@server_name "example.testnet2.com";@server_name "{{ nginx_servername }}";@' {{ nginx_conf_loc }}
+  become: true

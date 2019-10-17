@@ -1,0 +1,20 @@
+---
+- name: Copy OpenSSL private key
+  copy:
+    src: "{{ hostvars[inventory_hostname].ssl_key }}"
+    dest: /etc/nginx/ssl/cert.key
+    force: true
+  become: true
+
+- name: Copy OpenSSL certificate signing request
+  copy:
+    src: "{{ hostvars[inventory_hostname].ssl_csr }}"
+    dest: "/etc/nginx/ssl/{{ nginx_servername }}.csr"
+  become: true
+  when: nginx_copy_csr
+
+- name: Copy OpenSSL certificate
+  copy:
+    src: "{{ hostvars[inventory_hostname].ssl_pem }}"
+    dest: /etc/nginx/ssl/cert.pem
+  become: true

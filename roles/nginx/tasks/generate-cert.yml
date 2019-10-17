@@ -1,0 +1,27 @@
+---
+- name: Generate an OpenSSL private key
+  openssl_privatekey:
+    path: /etc/nginx/ssl/cert.key
+    force: true
+  become: true
+
+- name: Generate an OpenSSL Certificate Signing Request
+  openssl_csr:
+    path: "/etc/nginx/ssl/{{ nginx_servername }}.csr"
+    privatekey_path: /etc/nginx/ssl/cert.key
+    country_name: "{{ hostvars[inventory_hostname].country_name }}"
+    organization_name: "{{ hostvars[inventory_hostname].organization_name }}"
+    email_address: "{{ hostvars[inventory_hostname].mail_address }}"
+    common_name: "{{ nginx_servername }}"
+    force: true
+  become: true
+
+
+- name: Generate a Self Signed OpenSSL certificate
+  openssl_certificate:
+    path: /etc/nginx/ssl/cert.pem
+    privatekey_path: /etc/nginx/ssl/cert.key
+    csr_path: "/etc/nginx/ssl/{{ nginx_servername }}.csr"
+    provider: selfsigned
+    force: true
+  become: true

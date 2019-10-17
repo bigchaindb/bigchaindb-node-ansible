@@ -11,4 +11,5 @@
     - python
     - tendermint
     - bigchaindb
+    - { role: nginx, when: nginx_enable }
     - postconfig
