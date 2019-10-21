@@ -31,4 +31,4 @@
       - build-essential
       - libssl-dev
       - libffi-dev
-  sudo: yes
+  become: yes
