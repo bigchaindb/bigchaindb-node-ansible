@@ -1,6 +1,6 @@
 - name: Configure tendermint user
   shell: |
-    sudo -i -u {{ tendermint_user }} bash << EOF
+    sudo -i -u {{ tendermint_user }} bash `
 
     if [[ \$PATH != \$HOME/go/bin* ]]; then
         echo 'export PATH="\$HOME/go/bin:\$PATH"' >> ~/.profile
@@ -10,8 +10,8 @@
         echo 'export GOPATH="\$HOME/go"' >> ~/.profile
     fi
 
-    source ~/.profile
-    EOF
+    source ~/.profile`
+  become: yes
 
 - name: Update apt
   apt:
@@ -26,7 +26,7 @@
 
 - name: Initialize tendermint
   shell: |
-    sudo -i -u{{ tendermint_user }}  bash << EOF
+    sudo -i -u{{ tendermint_user }}  bash `
     go get -u {{ tendermint_repo }}
     cd \$GOPATH/src/{{ tendermint_repo }}
     git checkout '{{ tendermint_branch }}'
@@ -34,8 +34,7 @@
     make get_tools
     make get_vendor_deps
     make install
-    tendermint init
-    EOF
+    tendermint init`
   become: yes
 
 - name: Place systemd unit file

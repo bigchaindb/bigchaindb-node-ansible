@@ -1,31 +1,29 @@
 ---
 - name: Create BigchainDB environment
   shell: |
-    sudo -i -u {{ bigchaindb_user }} bash <<EOF
+    sudo -i -u {{ bigchaindb_user }} bash `
     # create a virtualenv
     python -m venv --clear ~/env/bigchaindb
-    EOF
+    `
   become: yes
 
 - name: Apply v2.0.0b9 fixes
   # Explicitly install wheel (v2.0.0b9 install fix).
   shell: |
-    sudo -i -u {{ bigchaindb_user }} bash <<EOF
+    sudo -i -u {{ bigchaindb_user }} bash `
     source ~/env/bigchaindb/bin/activate
     pip install wheel
-    deactivate
-    EOF
+    deactivate`
   become: yes
   when: bigchaindb_version == "v2.0.0b9"
 
 - name: Install Bigchaindb
   shell: |
-    sudo -i -u {{ bigchaindb_user }} bash <<EOF
+    sudo -i -u {{ bigchaindb_user }} bash `
     source ~/env/bigchaindb/bin/activate
     # install
     pip install -U bigchaindb=={{ bigchaindb_version }}
-    deactivate
-    EOF
+    deactivate`
   become: yes
 
 - name: Apply v2.0.0b9 fixes step 2.
@@ -33,17 +31,16 @@
   # NOTE: I don't know why but it works when bigchaindb is already installed.
   # It probably has something to do with protobufs.
   shell: |
-    sudo -i -u {{ bigchaindb_user }} bash <<EOF
+    sudo -i -u {{ bigchaindb_user }} bash `
     source ~/env/bigchaindb/bin/activate
     pip install tm-abci
-    deactivate
-    EOF
+    deactivate`
   become: yes
   when: bigchaindb_version == "v2.0.0b9"
 
 - name: Bigchaindb configuration
   shell: |
-    sudo -i -u {{ bigchaindb_user }} bash <<EOF
+    sudo -i -u {{ bigchaindb_user }} bash `
     source ~/env/bigchaindb/bin/activate
 
     bigchaindb -y configure
@@ -58,8 +55,7 @@
     sed -i 's@"error_file": "/home/{{ bigchaindb_user }}/bigchaindb-errors.log"\
     @"error_file": "{{ bigchaindb_log_folder }}/bigchaindb/bigchaindb-errors.log"@' ~/.bigchaindb
 
-    deactivate
-    EOF
+    deactivate`
   become: yes
 
 - name: Configure log folder
