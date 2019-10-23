@@ -1,6 +1,12 @@
 ---
 - hosts: all
   gather_facts: no
+  pre_tasks:
+    - name: Assert ansible version
+      assert:
+        that: "ansible_version.full is version_compare('2.8', '>=')"
+        msg: |
+          "This playbook is is tested with ansible 2.8.5 only."
   vars_files:
     - vars/install-config.yml
   vars:
