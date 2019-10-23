@@ -22,6 +22,12 @@
   become: yes
   # TODO check result
 
+- name: Update apt
+  apt:
+    upgrade: yes
+    update_cache: yes
+  become: yes
+
 - name: Install build requirements
   apt:
     name: "{{ packages }}"
