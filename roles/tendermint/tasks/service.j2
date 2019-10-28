@@ -3,7 +3,11 @@ Description=Tendermint. Byzantine-fault tolerant state machine replication.
 Documentation=https://tendermint.readthedocs.io/en/master/
 
 [Service]
-ExecStart=/home/{{ tendermint_user }}/go/bin/tendermint node
+ExecStart=/home/{{ tendermint_user }}/go/bin/tendermint node \
+                   --p2p.laddr "tcp://0.0.0.0:26656" \
+                   --proxy_app="tcp://0.0.0.0:26658" \
+                   --consensus.create_empty_blocks=false \
+                   --p2p.pex=false
 WorkingDirectory=/home/{{ tendermint_user }}
 User={{ tendermint_user }}
 Group={{ bigchaindb_group }}
