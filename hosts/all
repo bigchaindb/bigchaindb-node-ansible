@@ -1,8 +1,8 @@
 # Basic configuration
-#<HOSTNAME>  ansible_ssh_user=<USER> ansible_sudo_pass=<PASS>
+#<HOSTNAME>  ansible_ssh_user=<USER> ansible_sudo_pass=<PASS> voting_power=<INT>
 
 # Configuration with nginx and selfsigned ssl serts
-#<HOSTNAME>  ansible_ssh_user=<USER> ansible_sudo_pass=<PASS> country_name=DE organization_name=BigchainDB mail_address=contact@bigchaindb.com
+#<HOSTNAME>  ansible_ssh_user=<USER> ansible_sudo_pass=<PASS> country_name=DE organization_name=BigchainDB mail_address=contact@bigchaindb.com voting_power=<INT>
 
 # Configuration with nginx and selfsigned ssl serts
-#<HOSTNAME>  ansible_ssh_user=<USER> ansible_sudo_pass=<PASS> ssl_pem=/path/to/cert.pem ssl_key=/path/to/ssl/key ssl_csr=/path/to/ssl_csr
+#<HOSTNAME>  ansible_ssh_user=<USER> ansible_sudo_pass=<PASS> ssl_pem=/path/to/cert.pem ssl_key=/path/to/ssl/key ssl_csr=/path/to/ssl_csr voting_power=<INT>

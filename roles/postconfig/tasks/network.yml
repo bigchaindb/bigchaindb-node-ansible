@@ -1,0 +1,71 @@
+---
+- name: clear tendermint
+  shell: |
+    rm -rf /home/{{ tendermint_user }}/.tendermint
+    sudo -iu tendermint tendermint init
+  become: yes
+
+- name: Register genesis time
+  shell: |
+    cat /home/{{ tendermint_user }}/.tendermint/config/genesis.json | jq .genesis_time
+  register: genesis_time
+  become: yes
+
+- name: Register chain id
+  shell: |
+    cat /home/{{ tendermint_user }}/.tendermint/config/genesis.json | jq .chain_id
+  register: chain_id
+  become: yes
+
+- name: Set chain id custom
+  set_fact:
+    chain_id: "{{ (tendermint_chain_id == 'generate') | ternary(chain_id.stdout, tendermint_chain_id) }}"
+
+- name: Register validator json string
+  shell: |
+    cat /home/{{ tendermint_user }}/.tendermint/config/genesis.json | jq .validators[0]
+  register: validator
+  become: yes
+
+- name: Set validator power
+  set_fact:
+    voting_power: "{{ (inv.voting_power is defined) | ternary(inv.voting_power, 'default') }}"
+  vars:
+    inv: "{{ hostvars[inventory_hostname] }}"
+
+- debug: var=voting_power
+
+- name: Register node id
+  shell: |
+    sudo -iu {{ tendermint_user }} tendermint show_node_id
+  register: node_id
+  become: yes
+
+- name: Init variables
+  set_fact:
+    validators: []
+    voting_powers: []
+    node_ids: []
+
+- name: Compile multi-host arguents
+  set_fact:
+    node_ids: "{{ node_ids + [ hostvars[item].node_id.stdout ] }}"
+    validators:  "{{ validators + [ hostvars[item].validator.stdout ] }}"
+    voting_powers:  "{{ voting_powers + [ hostvars[item].voting_power ] }}"
+  loop: "{{ play_hosts }}"
+
+- name: Compile global arguments based on host 0
+  set_fact:
+    genesis_time: "{{ hostvars[play_hosts[0]].genesis_time.stdout | string }}"
+    chain_id: "{{ hostvars[play_hosts[0]].chain_id | string }}"
+
+- name: script
+  script: |
+    {{ scripts }}/tendermint_init {{tendermint_user}} \
+    {{ genesis_time }} \
+    {{ chain_id }} \
+    {{ validators|join(',')|b64encode }} \
+    {{ voting_powers|join(',') }} \
+    {{ node_ids|join(',') }} \
+    {{ play_hosts|join(',') }} \
+  become: yes

@@ -1,4 +1,9 @@
 ---
+
+- name: Connect nodes
+  include_tasks: network.yml
+  when: tendermint_connect_nodes
+
 - name: Enable services
   shell: |
     systemctl daemon-reload
