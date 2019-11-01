@@ -33,8 +33,6 @@
   vars:
     inv: "{{ hostvars[inventory_hostname] }}"
 
-- debug: var=voting_power
-
 - name: Register node id
   shell: |
     sudo -iu {{ tendermint_user }} tendermint show_node_id
