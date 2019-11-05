@@ -9,8 +9,8 @@ from base64 import b64decode
  CHAIN_ID,  # str
  B64_VALIDATORS,  # base64 encoded json string
  VALIDATOR_POWERS,  # comma separated string of ints or `default`
- B64_NODE_IDS, # comma separated list of node ids
- B64_NODE_IPS # comma separated list of node ips
+ NODE_IDS, # comma separated list of node ids
+ NODE_IPS # comma separated list of node ips
 ) = sys.argv[1:]
 
 GENESIS_FILE = ('/home/{tu}/.tendermint/config/genesis.json'
@@ -44,8 +44,8 @@ def edit_genesis() -> None:
 def edit_config() -> None:
     """Insert peers ids and addresses to tendermint config file."""
 
-    ips = B64_NODE_IPS.split(',')
-    ids = B64_NODE_IDS.split(',')
+    ips = NODE_IPS.split(',')
+    ids = NODE_IDS.split(',')
 
     persistent_peers = ',\\\n'.join([
         '{}@{}:26656'.format(nid, nip) for nid, nip in zip(ids, ips)
