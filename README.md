@@ -13,7 +13,6 @@ This repository contains a collection of ansible playbooks for quick bigchaindb 
     - Enabling and activating services
     - Nginx configuration
 - Connecting nodes into a network
-- TODO Adding/removing validators
 
 ### Limitations
 
