@@ -9,9 +9,9 @@ from base64 import b64decode
  CHAIN_ID,  # str
  B64_VALIDATORS,  # base64 encoded json string
  VALIDATOR_POWERS,  # comma separated string of ints or `default`
- NODE_IDS, # comma separated list of node ids
- NODE_IPS # comma separated list of node ips
-) = sys.argv[1:]
+ NODE_IDS,  # comma separated list of node ids
+ NODE_IPS  # comma separated list of node ips
+ ) = sys.argv[1:]
 
 GENESIS_FILE = ('/home/{tu}/.tendermint/config/genesis.json'
                 .format(tu=TENDERMINT_USER))
