@@ -30,13 +30,13 @@ def edit_genesis() -> None:
             v['power'] = p
 
     with open(GENESIS_FILE, 'r') as gf:
-        GENESIS = json.load(gf)
-        GENESIS['validators'] = validators
-        GENESIS['genesis_time'] = GENESIS_TIME
-        GENESIS['chain_id'] = CHAIN_ID
+        genesis_conf = json.load(gf)
+        genesis_conf['validators'] = validators
+        genesis_conf['genesis_time'] = GENESIS_TIME
+        genesis_conf['chain_id'] = CHAIN_ID
 
     with open(GENESIS_FILE, 'w') as gf:
-        json.dump(GENESIS, gf, indent=True)
+        json.dump(genesis_conf, gf, indent=True)
 
     return None
 
