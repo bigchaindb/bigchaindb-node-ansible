@@ -4,4 +4,3 @@ sed -i 's/pool 0.ubuntu.pool.ntp.org iburst/server 0.de.pool.ntp.org iburst/' /e
 sed -i 's/pool 1.ubuntu.pool.ntp.org iburst/server 1.de.pool.ntp.org iburst/' /etc/ntp.conf
 sed -i 's/pool 2.ubuntu.pool.ntp.org iburst/server 2.de.pool.ntp.org iburst/' /etc/ntp.conf
 sed -i 's/pool 3.ubuntu.pool.ntp.org iburst/server 3.de.pool.ntp.org iburst/' /etc/ntp.conf
-/etc/init.d/ntp restart
