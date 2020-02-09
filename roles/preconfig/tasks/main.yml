@@ -16,12 +16,6 @@
   become: yes
 # TODO disable login
 
-- name: Use the trusted NTP
-  when: use_trusted_ntp
-  script: "{{ scripts }}/ntpset"
-  become: yes
-  # TODO check result
-
 - name: Update apt
   apt:
     upgrade: yes
@@ -38,4 +32,12 @@
       - libssl-dev
       - libffi-dev
       - jq
+      - ntp
+      - ntpstat
   become: yes
+
+- name: Use the trusted NTP
+  when: use_trusted_ntp
+  script: "{{ scripts }}/ntpset"
+  become: yes
+  # TODO check result
