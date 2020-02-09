@@ -41,3 +41,6 @@
   script: "{{ scripts }}/ntpset"
   become: yes
   # TODO check result
+  
+ - name: restart ntp
+  service: name=ntp state=restarted
