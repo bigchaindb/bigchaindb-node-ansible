@@ -42,5 +42,5 @@
   become: yes
   # TODO check result
   
- - name: restart ntp
+- name: restart ntp
   service: name=ntp state=restarted
