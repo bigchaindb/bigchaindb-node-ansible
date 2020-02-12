@@ -18,7 +18,6 @@
 
 - name: Update apt
   apt:
-    upgrade: yes
     update_cache: yes
   become: yes
 
@@ -42,5 +41,5 @@
   become: yes
   # TODO check result
   
- - name: restart ntp
+- name: restart ntp
   service: name=ntp state=restarted
